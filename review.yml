@@ -1,0 +1,538 @@
+aid: zonos
+name: Zonos
+review:
+  question: Does Zonos publish a reachable, standards-legible API surface that the next
+    party in a cross-border shipment chain can speak?
+  answer: true
+  date: '2026-07-30'
+  reviewer: API Evangelist
+  tier: customs-trade-tech
+  cohort: freight-platforms
+  homeCountry: United States
+  domainVerified: true
+  domainNote: |
+    zonos.com resolves and is the real primary domain (HTTP 200; www.zonos.com
+    301s to the apex). docs.zonos.com 301s to https://zonos.com/docs.
+    developer.zonos.com does NOT resolve to a valid certificate (curl error 60,
+    SSL certificate problem) — the developer reference lives at the path
+    https://zonos.com/developer, not on a subdomain.
+findings:
+  summary: |
+    Zonos is a genuine outlier for this tier. Where most customs and trade-tech
+    vendors hide the contract behind a customer login, Zonos publishes a single
+    unified GraphQL endpoint at https://api.zonos.com/graphql whose full schema
+    answers an unauthenticated introspection query (HTTP 200, 1.96 MB, 1,396
+    types, 170 queries, 153 mutations, harvested 2026-07-30). The human-readable
+    reference at https://zonos.com/developer is browsable without a login, and
+    the company ships a curated https://zonos.com/llms.txt index explicitly
+    written for agents.
+
+    The schema itself is where the interoperability evidence lives. It carries
+    the WCO Harmonized System as a first-class versioned concept, the US CBP ACE
+    CATAIR Partner Government Agency message sets as typed results, UPU postal
+    operator codes and the ITMATT declaration status, GS1 GTIN/UPC as an item
+    key, and the full EU/UK/rest-of-world tax-ID regime (EORI, IOSS, VOEC, GST,
+    VAT, plus 20-odd national forms). What is conspicuously absent is every
+    freight-side standard: no DCSA, no IATA ONE Record, no IATA Cargo-XML, no
+    GS1 EPCIS, no UN/CEFACT MMT RDM, no eFTI, no UN/LOCODE, and — notably for
+    this sector — zero occurrences of EDIFACT or ANSI X12 anywhere in the
+    schema. Zonos is customs-and-parcel-shaped, not container-shaped, and it is
+    REST/GraphQL-native rather than an EDI house with a REST veneer.
+
+    The contract is proprietary in shape even where the vocabulary is standard.
+    A counterparty integrates against the Zonos Graph, not against a standard
+    anyone else implements, so this is one integration per Zonos relationship
+    rather than a write-once conformant surface.
+  publicSurface:
+    graphqlIntrospectionPublic: true
+    graphqlIntrospectionNote: |
+      POST https://api.zonos.com/graphql with a bare {__schema{queryType{name}}}
+      and no credentialToken returned HTTP 200. A full IntrospectionQuery
+      returned HTTP 200 and 1,959,198 bytes. Saved verbatim to
+      graphql/zonos-graphql-schema.json.
+    typeCount: 1396
+    queryCount: 170
+    mutationCount: 153
+    subscriptionType: null
+  probes:
+  - url: https://zonos.com/
+    status: 200
+    note: Apex resolves; www.zonos.com redirects here.
+  - url: https://zonos.com/developer
+    status: 200
+    note: Public GraphQL reference — queries, mutations, types, inputs, enums. No login.
+  - url: https://docs.zonos.com/
+    status: 200
+    note: Redirects to https://zonos.com/docs.
+  - url: https://developer.zonos.com/
+    status: 000
+    note: 'curl error 60 — SSL certificate problem, unable to get local issuer certificate.
+      Not a usable host.'
+  - url: https://api.zonos.com/
+    status: 404
+  - url: https://api.zonos.com/graphql
+    status: 200
+    note: 'GET with no operation returns HTTP 400 INVALID_GRAPHQL_REQUEST; POST with
+      an introspection query returns HTTP 200 and the full schema, unauthenticated.'
+  - url: https://api.zonos.com/openapi.json
+    status: 401
+    note: 'Jetty "Error 401 Unauthorized" HTML page. An OpenAPI document appears to
+      exist behind auth on the API host but is NOT publicly retrievable. Nothing was
+      saved from this probe.'
+  - url: https://api.zonos.com/swagger.json
+    status: 404
+  - url: https://api.zonos.com/v1/openapi.json
+    status: 404
+  - url: https://api.zonos.com/api-docs
+    status: 404
+  - url: https://api.zonos.com/swagger-ui
+    status: 404
+  - url: https://api.zonos.com/schema.graphql
+    status: 404
+  - url: https://api.zonos.com/graphql/schema
+    status: 404
+  - url: https://zonos.com/openapi.json
+    status: 404
+  - url: https://zonos.com/developer/openapi.json
+    status: 404
+  - url: https://zonos.com/.well-known/openapi.json
+    status: 404
+  - url: https://zonos.com/.well-known/ai-plugin.json
+    status: 404
+  - url: https://zonos.com/api
+    status: 404
+  - url: https://zonos.com/docs
+    status: 200
+  - url: https://zonos.com/docs/api-reference
+    status: 200
+    note: Legacy REST index — five REST APIs, all declared end-of-life.
+  - url: https://zonos.com/docs/api-reference/landed-cost-rest-api
+    status: 200
+  - url: https://zonos.com/docs/api-reference/classify-rest-api
+    status: 200
+  - url: https://zonos.com/docs/api-reference/rating-rest-api
+    status: 200
+  - url: https://zonos.com/docs/api-reference/order-complete-rest-api
+    status: 200
+  - url: https://zonos.com/docs/api-reference/checkout-rest-api
+    status: 200
+    note: No base URL or endpoint path resolvable from the rendered page.
+  - url: https://zonos.com/llms.txt
+    status: 200
+    note: Curated agent index; names the Graph as the supported surface and REST as
+      backwards-compatibility only.
+  - url: https://zonos.com/robots.txt
+    status: 200
+  - url: https://zonos.com/sitemap.xml
+    status: 200
+  - url: https://zonos.com/docs/supply-chain/webhooks
+    status: 200
+  - url: https://zonos.com/docs/account/webhooks
+    status: 200
+  - url: https://zonos.com/docs/supply-chain/rate-limiting
+    status: 200
+  - url: https://zonos.com/docs/supply-chain/oauth
+    status: 200
+  - url: https://zonos.com/docs/supply-chain/idempotency
+    status: 200
+  - url: https://zonos.com/docs/supply-chain/api-errors
+    status: 200
+  - url: https://zonos.com/docs/supply-chain/mcp-server
+    status: 200
+    note: MCP server documented as internal-only, "not yet generally available".
+  - url: https://zonos.com/docs/account/retrieve-graphql-key
+    status: 200
+  - url: https://zonos.com/docs/global-ecommerce/registration-and-setup/create-a-zonos-account
+    status: 200
+  - url: https://account.zonos.com/register
+    status: 200
+    note: Self-serve registration; Shopify path completes without a sales conversation.
+  - url: https://dashboard.zonos.com
+    status: 200
+    note: Customer dashboard (Clerk-backed login). Credential tokens are minted here.
+  - url: https://auth.zonos.com/oauth/token
+    status: 405
+    note: Method Not Allowed on GET — endpoint is live and POST-only, consistent with
+      the documented OAuth token endpoint.
+  - url: https://status.zonos.com
+    status: 200
+  - url: https://github.com/Zonos
+    status: 200
+  - url: https://github.com/Zonos/fe-10-typescript-sdk
+    status: 200
+  - url: https://github.com/Zonos/zonos-php-sdk
+    status: 200
+  - url: https://www.linkedin.com/company/zonos
+    status: 200
+  - url: https://zonos.com/cbp
+    status: 200
+    note: 'States "Zonos is proud to be working with CBP" and cites a press release,
+      "U.S. Customs and Border Protection Selects Zonos to Power AI-Driven Trade Compliance
+      and Tariff Collection." No entry type, broker license number, or ACE filer designation
+      is published on that page.'
+interoperability:
+  standardConformance:
+    verdict: standard-vocabulary-inside-a-proprietary-contract
+    standardsFound:
+    - standard: WCO Harmonized System
+      version: 'HS 1997 through HS 2072 (WcoVersion enum: WCO_1997, WCO_2002, WCO_2007,
+        WCO_2012, WCO_2017, WCO_2022, WCO_2027, WCO_2032 … WCO_2072)'
+      evidence: 'graphql/zonos-graphql-schema.json — enum WcoVersion; field HsCode.majorVersion
+        ("The WCO version of the harmonized system, represented as a year"); field
+        HsCode.minorVersion ("The country-specific version of the WCO core library");
+        field HsCode.description ("Combination of WCO and tariff schedule definitions").'
+      evidenceURL: https://zonos.com/developer
+      note: This is the WCO Harmonized System nomenclature, NOT the WCO Data Model.
+        No reference to the WCO Data Model (v3.x) was found anywhere in the schema
+        or docs.
+    - standard: US CBP ACE CATAIR / Partner Government Agency (PGA) message sets
+      version: not published
+      evidence: 'graphql/zonos-graphql-schema.json — type AphisCommodityQualifier ("Officially
+        the ACE CATAIR Commodity Qualifier"); type AphisDocument ("the ACE LPCO —
+        license/permit/certificate/other, PG14"); type AppliedRegulationsAPHIS ("ACE
+        agency APH; core programs AAC/ABS/APQ/AVS … the inferred PGA message-set data");
+        type AppliedRegulationsAPL (Lacey Act, program APL); type AppliedRegulationsEPA
+        (EPA Government Agency Program Code); type AppliedRegulationsFWS ("Form 3-177
+        / ACE FWS PGA message set"); type Entry ("A CBP filing grouping consignments
+        (HAWBs) under a consolidation (MAWB), carrying the CBP entry number"). 49 occurrences
+        of "PGA", 48 of "ACE", 52 of "CBP".'
+      evidenceURL: https://zonos.com/cbp
+    - standard: UPU postal operator codes / ITMATT
+      version: not published
+      evidence: 'graphql/zonos-graphql-schema.json — field PddpSubmission.originPost
+        and .destinationPost ("The origin/destination postal operator, UPU Code");
+        enum PostalOperatorCode with 428 values; enum DeclarationStatus value ITMATT_RECEIVED
+        (the UPU ITMATT item-attribute message).'
+      evidenceURL: https://zonos.com/docs/postal
+    - standard: GS1 GTIN (and UPC as a 12-digit GTIN)
+      version: not published
+      evidence: 'graphql/zonos-graphql-schema.json — CountryOfOriginInference.globalTradeItemNumber
+        and CountryOfOriginValidation.globalTradeItemNumber ("A Global Trade Item Number
+        (GTIN) of the product, such as UPC, EAN, GTIN-8, or GTIN-14"); ManifestLineItemInput.gtin;
+        ManifestLineItemInput.upc ("A UPC is a 12-digit GTIN"). No GS1 SSCC, GLN, SGTIN,
+        Digital Link or EPCIS anywhere.'
+      evidenceURL: https://zonos.com/developer
+    - standard: US Census AES / Internal Transaction Number (ITN) export filing
+      version: not published
+      evidence: graphql/zonos-graphql-schema.json — Shipment.itnNumber, Shipment.exemption
+        ("Exemption code for shipments requiring an ITN"), LabelCreateInput.itnNumber,
+        LabelCreateDetailInput.itnExemption, CustomsSpecAttributeType.ITN.
+      evidenceURL: https://zonos.com/developer
+    - standard: US EAR export control classification (ECCN)
+      version: not published
+      evidence: graphql/zonos-graphql-schema.json — ExportClassification.classificationCode,
+        ExportClassificationSetting.binaryDisplayEnabled, CustomsSpecAttributeType.ECCN,
+        mutation exportClassificationsInfer.
+      evidenceURL: https://zonos.com/developer
+    - standard: EU/UK trade and VAT identifier regimes (EORI, IOSS, VOEC, GST, VAT,
+        B13A)
+      version: not published
+      evidence: 'graphql/zonos-graphql-schema.json — enum TaxIdType (29 values: CNP,
+        CUIL, CURP, DAN, DNI, DTF, DUN, EIN, EORI, FED, FTPC, FTZ, GST, HMRC, IOSS,
+        LVG, NPWP, OSR, PAN, PCC, PCCC, RFC, RUN, SSN, STA, TAN, TIN, TRN, VOEC); enum
+        LabelTaxIdType (EORI, EU_EORI, GB_EORI, IOSS); enum CustomsSpecAttributeType
+        (B13A, ECCN, EORI, GST, IOSS, ITN, VAT, VOEC).'
+      evidenceURL: https://zonos.com/developer
+    standardsExplicitlyAbsent:
+    - standard: DCSA (booking, track-and-trace, eBL)
+      occurrencesInSchema: 0
+      note: Zonos is not an ocean/container player; no DCSA reference in schema or docs.
+    - standard: IATA ONE Record
+      occurrencesInSchema: 0
+    - standard: IATA Cargo-XML
+      occurrencesInSchema: 0
+    - standard: GS1 EPCIS
+      occurrencesInSchema: 0
+    - standard: UN/EDIFACT
+      occurrencesInSchema: 0
+    - standard: ANSI X12
+      occurrencesInSchema: 0
+    - standard: UN/CEFACT Multi-Modal Transport Reference Data Model
+      occurrencesInSchema: 0
+    - standard: eFTI (EU electronic freight transport information)
+      occurrencesInSchema: 0
+    - standard: WCO Data Model
+      occurrencesInSchema: 0
+      note: The WCO references present are all to the Harmonized System nomenclature,
+        not to the WCO Data Model.
+    - standard: MLETR / eBL
+      occurrencesInSchema: 0
+    - standard: UN/LOCODE
+      occurrencesInSchema: 0
+    - standard: NMFTA (SCAC is used, but no NMFTA standard is cited)
+      occurrencesInSchema: 0
+  interfaceShape:
+    value: standard-plus-proprietary
+    rationale: |
+      The contract is a Zonos-proprietary GraphQL graph — no other organization
+      implements it — but its data model is built out of real, externally
+      governed vocabularies (WCO HS, ACE CATAIR PGA message sets, UPU codes,
+      GTIN, ITN, ECCN, EORI/IOSS/VOEC). A counterparty must write one
+      integration per Zonos relationship, but the fields inside that
+      integration are legible to a customs broker and map cleanly onto filings
+      they already do. It is not open-standard: there is no DCSA/ONE
+      Record/EPCIS-conformant surface here that anyone else also implements.
+  identifierScheme:
+    summary: WCO HS codes and HTS lines; GS1 GTIN/UPC/EAN for items; master and house
+      air waybill numbers with 3-digit IATA airline prefix plus 8-digit AWB serial;
+      master bill of lading (MAWB/MBL); SCAC and IATA carrier codes; CBP entry numbers;
+      UPU postal operator codes; carrier tracking numbers; ITN and ITN exemption codes;
+      ECCN export-control codes; and the EORI/IOSS/VOEC/VAT/GST tax-ID family — hung
+      on Zonos-internal opaque object IDs.
+    found:
+    - name: WCO HS code / HTS line
+      evidence: type HsCode; query hsCode, hsCodeFragments; mutation hsCodesValidate;
+        106 occurrences of "hsCode", 21 of "HTS".
+    - name: GS1 GTIN / UPC / EAN / GTIN-8 / GTIN-14
+      evidence: 'CountryOfOriginInference.globalTradeItemNumber; ManifestLineItemInput.gtin;
+        ManifestLineItemInput.upc.'
+    - name: Master Air Waybill (MAWB) and House Air Waybill (HAWB); 3-digit IATA airline
+        prefix + 8-digit AWB
+      evidence: 'type Consolidation ("A carrier-level shipment (Master Air Waybill /
+        MAWB) holding one or more Consignments"); Consolidation.masterBillNumber ("Master
+        bill of lading number (MAWB / MBL)"); Manifest.awbPrefix ("3-digit airline
+        prefix"); Manifest.awbNumber ("8-digit AWB number"); type Entry ("grouping
+        consignments (HAWBs) under a consolidation (MAWB)").'
+    - name: SCAC / IATA carrier code
+      evidence: Consolidation.carrierCode ("SCAC / IATA carrier code"); ConsolidationCreateInput.carrierCode;
+        ConsolidationFilter.carrierCode.
+    - name: CBP entry number
+      evidence: type Entry ("carrying the CBP entry number, statuses, and assessed
+        charges").
+    - name: UPU postal operator code
+      evidence: PddpSubmission.originPost / .destinationPost; enum PostalOperatorCode
+        (428 values).
+    - name: Carrier tracking number
+      evidence: 47 occurrences of "trackingNumber"; mutations orderAddTrackingNumber,
+        orderRemoveTrackingNumber, shipmentCreateWithTracking.
+    - name: ITN (US AES Internal Transaction Number) and exemption codes
+      evidence: Shipment.itnNumber; Shipment.exemption; LabelCreateDetailInput.itnExemption.
+    - name: ECCN (US export control classification number)
+      evidence: ExportClassification.classificationCode; CustomsSpecAttributeType.ECCN.
+    - name: EORI / EU_EORI / GB_EORI / IOSS / VOEC / VAT / GST and 20+ national tax
+        IDs
+      evidence: 'enum TaxIdType (29 values); enum LabelTaxIdType; enum CustomsSpecAttributeType.'
+    - name: Vendor-internal opaque object IDs
+      evidence: Every Zonos object (order, shipment, landedCost, cart, party, classification)
+        is addressed by a Zonos-issued ID; the legacy Order Complete REST API exists
+        specifically to "return the Zonos-specific order ID".
+    notFound:
+    - BIC/ISO 6346 container numbers
+    - IMO vessel numbers
+    - UN/LOCODE port codes
+    - GS1 SSCC, GLN, SGTIN, Digital Link
+    - DUNS
+    - VIN as a shipment key (the string "vin" appears only inside longer words)
+  eventModel:
+    value: webhook-push
+    subscriptionOperation: 'mutation webhookCreate(input: WebhookCreateInput) — returns
+      id, url, type, status. Companions: webhookUpdate, webhookDelete; queries webhook,
+      webhooks, webhookLog, webhookLogs (filtered by WebhookLogsFilterInput).'
+    eventCatalog:
+      enum: WebhookType
+      count: 23
+      values:
+      - COLLECT_EMAIL_SENT
+      - COLLECT_EMAIL_SENT_FAILED
+      - COLLECT_PAYMENT_FAILED
+      - COLLECT_PAYMENT_LINK_EXPIRED
+      - COLLECT_PAYMENT_LINK_OPENED
+      - COLLECT_PAYMENT_SUCCEEDED
+      - INCLUSIVE_PRICE_CONFIGURATION_CHANGED
+      - INCLUSIVE_PRICE_CONFIGURATION_CREATED
+      - INCLUSIVE_PRICE_CONFIGURATION_DELETED
+      - INCLUSIVE_PRICE_CONFIGURATION_UPDATED
+      - INCLUSIVE_PRICE_SYNC_READY
+      - INVENTORY_CHECK
+      - INVENTORY_REFUND
+      - IP_SETTING_STATUS_CHANGED
+      - ORDER_CANCELED
+      - ORDER_COMBINED
+      - ORDER_CREATED
+      - ORDER_PAYOUT_DETAILS_READY
+      - ORDER_SHIPPING
+      - ORDER_STATUS_CHANGED
+      - ORDER_UPDATED
+      - SHIPMENT_CANCELED
+      - SHIPMENT_CREATED
+    deliveryNote: Zonos sends an HTTP POST to the subscriber URL when the subscribed
+      event fires; webhook status is toggled via the WebhookStatus enum (ENABLED /
+      DISABLED). Delivery attempts are inspectable via the webhookLogs query.
+    noAsyncAPI: true
+    noGraphQLSubscriptions: true
+    pollingAlso: 'Yes — every webhooked object is also readable by query (order, orders,
+      ordersSearch, shipment, shipments, declaration, declarations), so polling is
+      available as a fallback, but push is the documented pattern.'
+    eventVocabularyStandard: none — the WebhookType values are Zonos-proprietary. No
+      DCSA event types, no GS1 EPCIS events, no EDI 214 status message vocabulary.
+  ediLegacy:
+    value: no EDI referenced
+    detail: |
+      Zero occurrences of "EDIFACT" or "X12" in the 1.96 MB introspected schema,
+      and none in the public documentation surfaced. No VAN, AS2, SFTP drop or
+      mapping-project onboarding is described anywhere. The single
+      EDI-adjacent artifact is DeclarationStatus.ITMATT_RECEIVED — the UPU
+      ITMATT item-attribute message that a postal operator sends inbound — which
+      Zonos consumes as a status, not as an integration path a customer must
+      speak. The customer-facing path is GraphQL over HTTPS, with a legacy REST
+      v1 layer kept for backwards compatibility only. This is genuinely
+      unusual for the sector and is the strongest single differentiator in the
+      profile.
+  multiPartyPosture:
+    value: publishes outward to merchants, platforms, carriers, postal operators and
+      CBP; brokerage is performed by Zonos itself rather than delegated
+    detail: |
+      Zonos both publishes and consumes. It publishes a single graph that a
+      shipper, an ecommerce platform, a 3PL or a postal operator can call
+      directly — there is no requirement to go through a contracted forwarder.
+      It consumes carrier and postal integrations on the back end (carrier,
+      carriers, carrierByCode, carrierAccountConnect, carrierAccounts,
+      carrierBillingInvoice; 428 UPU PostalOperatorCode values; named carrier
+      pages for DHL, FedEx, UPS, Australia Post, Canada Post, Royal Mail, Japan
+      Post and others at https://zonos.com/all-posts and the per-carrier pages
+      indexed in llms.txt).
+      It files to authorities itself: type Entry is "A CBP filing grouping
+      consignments (HAWBs) under a consolidation (MAWB)", and the CBP page
+      claims a working relationship with US Customs and Border Protection.
+      Notably, filing internals are deliberately walled off from customers —
+      the Entry description states that Consignment.entry and
+      Consignment.consolidation are both @inaccessible and that entries are
+      "customer-reachable only via Consolidation.entries … the owner-scoped
+      consolidations query". So the graph is multi-tenant with explicit
+      per-organization scoping, and the customs-filing layer is intentionally
+      partially hidden.
+      A platform/plugin marketplace exists (Shopify, Magento — magentoScope,
+      magentoInventory, magentoReservationStockStatus queries and
+      magentoInventoryReserve/Refund mutations are in the schema), plus an
+      OAuth machine-to-machine flow for partner backends.
+  accessGate:
+    value: customer-account-required
+    detail: |
+      Reading the contract is free and requires nothing: the reference at
+      https://zonos.com/developer is open, and https://api.zonos.com/graphql
+      answers introspection unauthenticated. Calling it is not.
+      A developer must hold a Zonos Dashboard account and mint a credential
+      token at Dashboard → Settings → Integrations
+      (https://dashboard.zonos.com/settings/dashboard/integrate → "Create
+      GraphQL key"), then send it as the `credentialToken` request header on
+      every call. Available roles on that key "are determined by the
+      subscriptions that are active on your account", so capability is
+      entitlement-gated, not just auth-gated.
+      Getting the account is split: Shopify merchants can self-register at
+      https://account.zonos.com/register and, per the docs, "self-register and
+      finish setup without waiting on a sales conversation". Every other
+      platform must complete a sign-up form, wait for "your account agreement
+      [to be] in place", and be contacted within 24 hours by "a dedicated
+      onboarding representative" for a tailored integration. So the honest
+      gate is: self-serve for one channel, commercial agreement for the rest.
+      Partner backends additionally register an RSA public key with Zonos
+      during onboarding and exchange signed JWTs at
+      POST https://auth.zonos.com/oauth/token (asymmetric keys, no shared
+      secrets, Organization ID as the JWT `iss` claim).
+    whatMustBeSigned: A Zonos account agreement for non-Shopify platforms (sales-led,
+      ~24h to first contact); nothing beyond a Shopify install for Shopify merchants.
+      No accreditation, license, or customs-broker credential is required of the caller
+      — Zonos holds the brokerage relationship.
+  dcsaMembershipVsPublication:
+    applicable: false
+    note: Zonos is a customs/trade-compliance and parcel/postal player, not an ocean
+      carrier or container platform. No DCSA membership or publication is claimed or
+      expected; no DCSA reference exists in the schema or documentation.
+  operationalPosture:
+    rateLimits: 'Published and specific — a token bucket refilling at 3,000 points/second
+      (30,000 per 10 seconds) with a 300,000-point maximum capacity. Query base cost
+      5 points, mutation base cost 10 points, 1 point per object returned, scalar fields
+      free. Responses carry a `zonos-query-complexity` header. Source: https://zonos.com/docs/supply-chain/rate-limiting'
+    idempotency: Documented at https://zonos.com/docs/supply-chain/idempotency (patterns
+      for safe mutation retry, plus the status of native idempotency-key support).
+    sandbox: Test mode documented at https://zonos.com/docs/global-ecommerce/integration/integrating-new-checkout/test-mode-overview
+    mcpServer: 'Documented but NOT available — https://zonos.com/docs/supply-chain/mcp-server
+      states it "is not yet generally available", runs internally at Zonos for staff
+      only, and directs prospective users to contact sales. Planned initial scope:
+      read operations over products, orders, shipments and classifications, plus selective
+      confirmation-gated writes.'
+    agentAffordances: A curated https://zonos.com/llms.txt is published, with an explicit
+      "For AI agents" section naming the Graph as the supported surface and marking
+      /api/, /developer/auth, /developer/internal, /developer/viewport and /developer/frontend
+      as off-limits.
+    sdks:
+    - https://github.com/Zonos/fe-10-typescript-sdk
+    - https://github.com/Zonos/zonos-php-sdk
+sources:
+- url: https://zonos.com/developer
+  type: APIReference
+  note: Public, login-free GraphQL reference for queries, mutations, types, inputs
+    and enums.
+- url: https://api.zonos.com/graphql
+  type: GraphQL
+  note: Unauthenticated introspection returned HTTP 200 and the full 1,396-type schema
+    on 2026-07-30.
+- url: https://zonos.com/llms.txt
+  type: LLMSTxt
+  note: Curated agent index of products, developer reference, API operations and SDKs.
+- url: https://zonos.com/docs/api-reference
+  type: Documentation
+  note: Legacy REST index; states "Our REST APIs are considered end-of-life and have
+    limited access to newer features."
+- url: https://zonos.com/docs/supply-chain/webhooks
+  type: Documentation
+  note: webhookCreate / webhookUpdate / webhookLogs; points at the WebhookType enum
+    for the event catalog.
+- url: https://zonos.com/docs/supply-chain/rate-limiting
+  type: Documentation
+  note: Point-bucket rate limits and the zonos-query-complexity header.
+- url: https://zonos.com/docs/supply-chain/oauth
+  type: Documentation
+  note: Asymmetric-key machine-to-machine OAuth at POST https://auth.zonos.com/oauth/token.
+- url: https://zonos.com/docs/account/retrieve-graphql-key
+  type: Documentation
+  note: credentialToken minted at https://dashboard.zonos.com/settings/dashboard/integrate;
+    roles depend on active subscriptions.
+- url: https://zonos.com/docs/global-ecommerce/registration-and-setup/create-a-zonos-account
+  type: Documentation
+  note: Shopify self-registers without a sales conversation; all other platforms require
+    a sign-up form and an account agreement.
+- url: https://zonos.com/cbp
+  type: Documentation
+  note: Claims a working relationship with US Customs and Border Protection; no entry
+    type, broker license, or ACE filer designation published.
+- url: https://zonos.com/pricing
+  type: Pricing
+  note: Dashboard Lite free for Australia Post, Canada Post and Japan Post; Prepay
+    app free with a per-shipment processing fee. No published API price list.
+artifacts:
+  harvested:
+  - path: graphql/zonos-graphql-schema.json
+    sourceURL: https://api.zonos.com/graphql
+    method: 'POST, Content-Type: application/json, standard IntrospectionQuery, no
+      credentialToken'
+    httpStatus: 200
+    bytes: 1959198
+    fetched: '2026-07-30'
+    parses: true
+    types: 1396
+    queries: 170
+    mutations: 153
+    subscriptions: 0
+  notHarvested:
+  - what: OpenAPI / Swagger
+    reason: No public OpenAPI exists. https://api.zonos.com/openapi.json returns HTTP
+      401 (Jetty "Unauthorized") — a document may exist behind auth, but nothing was
+      retrieved or saved. All other OpenAPI/Swagger paths probed returned 404. The
+      legacy REST reference pages document endpoints in prose only; no machine-readable
+      contract is offered.
+  - what: AsyncAPI
+    reason: None published. Events are delivered as HTTP POST webhooks with no AsyncAPI
+      document and no GraphQL subscription type.
+actions:
+  graphqlSchemaPath: graphql/zonos-graphql-schema.json
+  apisYmlCreated: true
+  readmeCreated: true
+  openapiDirectory: omitted — no real OpenAPI artifact was found
+  reason: |
+    Bootstrap pass. Identity, the honest public-API picture, and one real
+    harvested contract (the full public GraphQL introspection response) are in
+    place. Six APIs are listed: the Zonos Graph plus five legacy REST APIs, of
+    which four have base URLs confirmed from the public reference and one
+    (Checkout) is listed without a base URL because none was resolvable. No
+    endpoint, host, scope or spec was invented.

@@ -1,0 +1,235 @@
+aid: zonos
+url: https://raw.githubusercontent.com/api-evangelist/zonos/refs/heads/main/apis.yml
+name: Zonos
+kind: company
+description: Zonos is a cross-border trade technology company headquartered in St. George,
+  Utah, United States, that sells customs and trade compliance as an API. Its products
+  calculate landed cost (duty, tax, brokerage and carrier fees), classify goods to
+  HS codes with AI, screen parties and items against restricted and denied lists,
+  rate and label international parcels, generate customs documents, submit postal
+  PDDP declarations to destination posts, and file CBP entries for consolidated air
+  consignments. It sits in the middle of the chain — between merchants, carriers,
+  postal operators and freight consolidators on one side and customs authorities on
+  the other — and is one of the few organizations in this tier whose integration surface
+  is genuinely public rather than a customer-contract portal. A single unified GraphQL
+  endpoint at https://api.zonos.com/graphql answers unauthenticated introspection
+  (1,396 types, 170 queries, 153 mutations, harvested 2026-07-30), the reference is
+  browsable without login at https://zonos.com/developer, and a legacy REST v1 layer
+  remains documented but is declared end-of-life. Calling anything real still requires
+  a credential token from the Zonos Dashboard, which is self-serve only for Shopify
+  merchants; every other platform is routed through sales and an account agreement.
+image: https://zonos.com/images/zonos-logo-social-sharing.webp
+tags:
+- Logistics
+- Supply Chain
+- United States
+- Customs
+- Trade Compliance
+- Landed Cost
+- Duty and Tax
+- HS Classification
+- Cross-Border Commerce
+- Parcel
+- Postal
+- Track and Trace
+- Standards
+created: '2026-07-30'
+modified: '2026-07-30'
+specificationVersion: '0.19'
+apis:
+- aid: zonos:zonos-graph-graphql-api
+  name: Zonos Graph (GraphQL API)
+  description: The Zonos Graph is the company's supported integration surface — a single
+    GraphQL endpoint covering landed cost, classification, country of origin, export
+    control, item and party restriction screening, carts and checkout sessions, orders,
+    shipments, ratings, labels, cartonization, customs documents and customs specs,
+    manifests, consignments and consolidations, CBP entries, postal PDDP submissions,
+    store credit and webhooks. Public introspection returned 1,396 types, 170 queries
+    and 153 mutations on 2026-07-30 with no credential presented. There is no subscription
+    type; asynchronous delivery is by webhook.
+  humanURL: https://zonos.com/developer
+  baseURL: https://api.zonos.com/graphql
+  tags:
+  - GraphQL
+  - Landed Cost
+  - Customs
+  - Trade Compliance
+  - Classification
+  - Shipping
+  - Webhooks
+  properties:
+  - type: GraphQL
+    url: graphql/zonos-graphql-schema.json
+  - type: APIReference
+    url: https://zonos.com/developer
+  - type: Documentation
+    url: https://zonos.com/docs
+  - type: Documentation
+    url: https://zonos.com/docs/supply-chain/why-graphql
+  - type: Documentation
+    url: https://zonos.com/docs/supply-chain/webhooks
+  - type: Documentation
+    url: https://zonos.com/docs/account/webhooks
+  - type: Documentation
+    url: https://zonos.com/docs/supply-chain/rate-limiting
+  - type: Documentation
+    url: https://zonos.com/docs/supply-chain/idempotency
+  - type: Documentation
+    url: https://zonos.com/docs/supply-chain/api-errors
+  - type: Documentation
+    url: https://zonos.com/docs/supply-chain/oauth
+  - type: Documentation
+    url: https://zonos.com/docs/account/retrieve-graphql-key
+  - type: Documentation
+    url: https://zonos.com/docs/global-ecommerce/registration-and-setup/credentials
+  - type: Documentation
+    url: https://zonos.com/docs/supply-chain/generate-code-from-graphql-schema
+  - type: Documentation
+    url: https://zonos.com/docs/supply-chain/landed-cost
+  - type: Documentation
+    url: https://zonos.com/docs/supply-chain/classify
+  - type: Documentation
+    url: https://zonos.com/docs/supply-chain/greenlight
+  - type: Documentation
+    url: https://zonos.com/docs/supply-chain/country-of-origin
+  - type: Documentation
+    url: https://zonos.com/docs/supply-chain/item-restrictions/get-started
+  - type: Documentation
+    url: https://zonos.com/docs/supply-chain/collect
+  - type: Documentation
+    url: https://zonos.com/docs/postal
+  - type: SDK
+    url: https://github.com/Zonos/fe-10-typescript-sdk
+  - type: SDK
+    url: https://github.com/Zonos/zonos-php-sdk
+- aid: zonos:zonos-landed-cost-rest-api
+  name: Zonos Landed Cost REST API (legacy)
+  description: Legacy REST endpoint that returns a complete breakdown of the duties,
+    taxes and fees making up a total landed cost for a shipment. Requires a `zonos-version`
+    request header. Zonos documents its REST layer as end-of-life with limited access
+    to newer features and directs new integrations to the Graph.
+  humanURL: https://zonos.com/docs/api-reference/landed-cost-rest-api
+  baseURL: https://api.zonos.com/v1/landed_cost
+  tags:
+  - REST
+  - Landed Cost
+  - Duty and Tax
+  - Legacy
+  properties:
+  - type: APIReference
+    url: https://zonos.com/docs/api-reference/landed-cost-rest-api
+  - type: Documentation
+    url: https://zonos.com/docs/api-reference
+  - type: Documentation
+    url: https://zonos.com/docs/api-reference/get-started
+  - type: Documentation
+    url: https://zonos.com/docs/api-reference/api-error-messages
+- aid: zonos:zonos-classify-rest-api
+  name: Zonos Classify REST API (legacy)
+  description: Legacy REST endpoints for harmonizing a catalog to HS codes one item
+    at a time or in bulk, with a group identifier for retrieving bulk results. Documented
+    paths are /v1/classify, /v1/classify/:id, /v1/classify/bulk and /v1/classify/bulk/:group_id.
+    Declared end-of-life in favor of the Graph.
+  humanURL: https://zonos.com/docs/api-reference/classify-rest-api
+  baseURL: https://api.zonos.com/v1/classify
+  tags:
+  - REST
+  - HS Classification
+  - Trade Compliance
+  - Legacy
+  properties:
+  - type: APIReference
+    url: https://zonos.com/docs/api-reference/classify-rest-api
+  - type: Documentation
+    url: https://zonos.com/docs/api-reference
+- aid: zonos:zonos-rating-rest-api
+  name: Zonos Rating REST API (legacy)
+  description: Legacy REST endpoint returning international shipping rates for carriers
+    and service levels. Documented path is /v1/shipment_rating. Declared end-of-life
+    in favor of the Graph.
+  humanURL: https://zonos.com/docs/api-reference/rating-rest-api
+  baseURL: https://api.zonos.com/v1/shipment_rating
+  tags:
+  - REST
+  - Shipping
+  - Rates
+  - Legacy
+  properties:
+  - type: APIReference
+    url: https://zonos.com/docs/api-reference/rating-rest-api
+  - type: Documentation
+    url: https://zonos.com/docs/api-reference
+- aid: zonos:zonos-order-complete-rest-api
+  name: Zonos Order Complete REST API (legacy)
+  description: Legacy REST endpoint that accepts the details of a shopper's completed
+    order and returns the Zonos-specific order ID. Documented path is /v1/orders. Declared
+    end-of-life in favor of the Graph.
+  humanURL: https://zonos.com/docs/api-reference/order-complete-rest-api
+  baseURL: https://api.zonos.com/v1/orders
+  tags:
+  - REST
+  - Orders
+  - Legacy
+  properties:
+  - type: APIReference
+    url: https://zonos.com/docs/api-reference/order-complete-rest-api
+  - type: Documentation
+    url: https://zonos.com/docs/api-reference
+- aid: zonos:zonos-checkout-rest-api
+  name: Zonos Checkout REST API (legacy)
+  description: Legacy REST integration surface for Zonos Checkout, listed on the Zonos
+    REST API reference index. No base URL or endpoint path was resolvable from the
+    public reference page on 2026-07-30, so none is asserted here. Declared end-of-life
+    in favor of the Graph.
+  humanURL: https://zonos.com/docs/api-reference/checkout-rest-api
+  tags:
+  - REST
+  - Checkout
+  - Legacy
+  properties:
+  - type: APIReference
+    url: https://zonos.com/docs/api-reference/checkout-rest-api
+  - type: Documentation
+    url: https://zonos.com/docs/api-reference
+common:
+- type: Website
+  url: https://zonos.com/
+- type: Documentation
+  url: https://zonos.com/docs
+- type: APIReference
+  url: https://zonos.com/developer
+- type: GraphQL
+  url: graphql/zonos-graphql-schema.json
+- type: Authentication
+  url: https://zonos.com/docs/account/retrieve-graphql-key
+- type: OAuth
+  url: https://zonos.com/docs/supply-chain/oauth
+- type: RateLimits
+  url: https://zonos.com/docs/supply-chain/rate-limiting
+- type: Webhooks
+  url: https://zonos.com/docs/supply-chain/webhooks
+- type: Pricing
+  url: https://zonos.com/pricing
+- type: SignUp
+  url: https://account.zonos.com/register
+- type: Portal
+  url: https://dashboard.zonos.com
+- type: StatusPage
+  url: https://status.zonos.com
+- type: GitHubOrganization
+  url: https://github.com/Zonos
+- type: LinkedIn
+  url: https://www.linkedin.com/company/zonos
+- type: Blog
+  url: https://zonos.com/all-posts
+- type: About
+  url: https://zonos.com/about-us
+- type: Support
+  url: https://zonos.com/contact-support
+- type: LLMSTxt
+  url: https://zonos.com/llms.txt
+- type: Sitemap
+  url: https://zonos.com/sitemap.xml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

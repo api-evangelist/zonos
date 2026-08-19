@@ -35,7 +35,7 @@ tags:
 - Standards
 created: '2026-07-30'
 modified: '2026-07-30'
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
 - aid: zonos:zonos-graph-graphql-api
   name: Zonos Graph (GraphQL API)

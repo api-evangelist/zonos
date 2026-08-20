@@ -56,6 +56,14 @@ apis:
   - Trade Compliance
   - Classification
   - Shipping
+  - Webhook
+  tags_raw:
+  - GraphQL
+  - Landed Cost
+  - Customs
+  - Trade Compliance
+  - Classification
+  - Shipping
   - Webhooks
   properties:
   - type: GraphQL
@@ -167,6 +175,10 @@ apis:
   humanURL: https://zonos.com/docs/api-reference/order-complete-rest-api
   baseURL: https://api.zonos.com/v1/orders
   tags:
+  - REST
+  - Order
+  - Legacy
+  tags_raw:
   - REST
   - Orders
   - Legacy

@@ -18,6 +18,17 @@ description: Zonos is a cross-border trade technology company headquartered in S
   remains documented but is declared end-of-life. Calling anything real still requires
   a credential token from the Zonos Dashboard, which is self-serve only for Shopify
   merchants; every other platform is routed through sales and an account agreement.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://zonos.com/images/zonos-logo-social-sharing.webp
 tags:
 - Logistics

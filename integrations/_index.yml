@@ -28,3 +28,16 @@
     builder: unknown (not in the directory record)
   status: not-a-workflow
   arazzo: null
+- slug: zonos-bigcommerce-own
+  label: BigCommerce (own)
+  partner: bigcommerce
+  partner_name: BigCommerce (own)
+  category: Shipping & Fulfillment, Cross-Border Fulfillment
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://www.bigcommerce.com/apps/zonos-checkout/
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null

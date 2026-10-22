@@ -76,6 +76,25 @@ edges:
   detected: '2026-10-22'
   detected_by: mirror-platform-listings.py
   category: Adobe Commerce Marketplace extension
+- partner_name: Wix (own)
+  partner: wix
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://www.wix.com/app-market/developer/zonos
+  mirror_of: wix/integrations/wix-integration-edges.yml
+  apps:
+  - Zonos Sync
+  listing_count: 1
+  detected: '2026-10-22'
+  detected_by: mirror-platform-listings.py
+  category: Shipping & Delivery
+  badges:
+  - SELF_PUBLISHED
 method: searched
 checked:
 - https://zapier.com/api/v4/apps/
@@ -84,5 +103,6 @@ checked:
 - https://sellercentral.amazon.com/gspn
 - https://sellercentral.amazon.com/selling-partner-appstore
 - adobe-commerce/integrations/adobe-commerce-integration-edges.yml
+- wix/integrations/wix-integration-edges.yml
 source:
 - https://zapier.com/api/v4/apps/

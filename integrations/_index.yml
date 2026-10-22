@@ -66,3 +66,16 @@
   relationship: platform-app
   status: not-a-workflow
   arazzo: null
+- slug: zonos-wix-own
+  label: Wix (own)
+  partner: wix
+  partner_name: Wix (own)
+  category: Shipping & Delivery
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://www.wix.com/app-market/developer/zonos
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null

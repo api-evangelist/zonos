@@ -25,6 +25,21 @@ edges:
     builder: unknown (not in the directory record)
   detected_by: sweep-workflow-automation.py
   first_seen: '2026-10-15'
+- partner_name: Amazon Selling Partner Appstore
+  partner: amazon-seller-central
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://sellercentral.amazon.com/selling-partner-appstore/dp/amzn1.sp.solution.aff46b27-606b-4cd4-9c03-87b2a663aaf1
+  mirror_of: amazon-seller-central/integrations/amazon-seller-central-integration-edges.yml
+  apps:
+  - Zonos Sync
+  detected: '2026-10-21'
+  detected_by: sweep-amazon-sp-api-appstore.py
 - partner_name: BigCommerce (own)
   partner: bigcommerce
   partner_match: mirror
@@ -44,8 +59,8 @@ edges:
   detected: '2026-10-20'
   detected_by: mirror-platform-listings.py
   category: Shipping & Fulfillment, Cross-Border Fulfillment
-- partner_name: Amazon Selling Partner Appstore
-  partner: amazon-seller-central
+- partner_name: Adobe Commerce (own)
+  partner: adobe-commerce
   partner_match: mirror
   mirror_match: domain
   type: marketplace
@@ -53,12 +68,14 @@ edges:
   direction: third-party
   channel: partner-built
   marketplace: own
-  evidence: https://sellercentral.amazon.com/selling-partner-appstore/dp/amzn1.sp.solution.aff46b27-606b-4cd4-9c03-87b2a663aaf1
-  mirror_of: amazon-seller-central/integrations/amazon-seller-central-integration-edges.yml
+  evidence: https://commercemarketplace.adobe.com/zonos-hello.html
+  mirror_of: adobe-commerce/integrations/adobe-commerce-integration-edges.yml
   apps:
-  - Zonos Sync
-  detected: '2026-10-21'
-  detected_by: sweep-amazon-sp-api-appstore.py
+  - Zonos Hello
+  listing_count: 1
+  detected: '2026-10-22'
+  detected_by: mirror-platform-listings.py
+  category: Adobe Commerce Marketplace extension
 method: searched
 checked:
 - https://zapier.com/api/v4/apps/
@@ -66,5 +83,6 @@ checked:
 - https://advertising.amazon.com/partners/directory
 - https://sellercentral.amazon.com/gspn
 - https://sellercentral.amazon.com/selling-partner-appstore
+- adobe-commerce/integrations/adobe-commerce-integration-edges.yml
 source:
 - https://zapier.com/api/v4/apps/

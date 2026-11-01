@@ -1,4 +1,4 @@
-# Zonos (zonos)
+# Zonos
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,128 +64,86 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Zonos is a cross-border trade technology company headquartered in St. George, Utah, United States, that sells customs and trade compliance as an API — landed cost, AI HS-code classification, restricted-goods and denied-party screening, international checkout, rating, labels, customs documents, postal PDDP submission, and CBP entry filing. It sits between merchants, carriers, postal operators and freight consolidators on one side and customs authorities on the other. Its supported integration surface is a single public GraphQL endpoint whose schema answers unauthenticated introspection; a legacy REST v1 layer is documented but declared end-of-life.
+Zonos is a cross-border trade technology company headquartered in St. George, Utah, United States, that sells customs and trade compliance as an API. Its products calculate landed cost (duty, tax, brokerage and carrier fees), classify goods to HS codes with AI, screen parties and items against restricted and denied lists, rate and label international parcels, generate customs documents, submit postal PDDP declarations to destination posts, and file CBP entries for consolidated air consignments. It sits in the middle of the chain — between merchants, carriers, postal operators and freight consolidators on one side and customs authorities on the other — and is one of the few organizations in this tier whose integration surface is genuinely public rather than a customer-contract portal. A single unified GraphQL endpoint at https://api.zonos.com/graphql answers unauthenticated introspection (1,396 types, 170 queries, 153 mutations, harvested 2026-07-30), the reference is browsable without login at https://zonos.com/developer, and a legacy REST v1 layer remains documented but is declared end-of-life. Calling anything real still requires a credential token from the Zonos Dashboard, which is self-serve only for Shopify merchants; every other platform is routed through sales and an account agreement.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/zonos/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/zonos/refs/heads/main/apis.yml)
+**Areas:** Logistics · Supply Chain · United States · Customs · Trade Compliance · Landed Cost · Duty and Tax · HS Classification · Cross-Border Commerce · Parcel · Postal · Track and Trace
 
-## Tags
+## Zonos on APIs.io
 
-- Logistics
-- Supply Chain
-- United States
-- Customs
-- Trade Compliance
-- Landed Cost
-- Duty and Tax
-- HS Classification
-- Cross-Border Commerce
-- Parcel
-- Postal
-- Track and Trace
-- Standards
+Everything profiled for Zonos is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/zonos/](https://apis.io/providers/zonos/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (6)
 
-- **Created:** 2026-07-30
-- **Modified:** 2026-07-30
+- [Zonos Graph (GraphQL API)](https://apis.io/apis/zonos/zonos-graph-graphql-api/) — The Zonos Graph is the company's supported integration surface — a single GraphQL endpoint covering landed cost, classification, country of origin, export…
+- [Zonos Landed Cost REST API (legacy)](https://apis.io/apis/zonos/zonos-landed-cost-rest-api/) — Legacy REST endpoint that returns a complete breakdown of the duties, taxes and fees making up a total landed cost for a shipment. Requires a…
+- [Zonos Classify REST API (legacy)](https://apis.io/apis/zonos/zonos-classify-rest-api/) — Legacy REST endpoints for harmonizing a catalog to HS codes one item at a time or in bulk, with a group identifier for retrieving bulk results. Documented…
+- [Zonos Rating REST API (legacy)](https://apis.io/apis/zonos/zonos-rating-rest-api/) — Legacy REST endpoint returning international shipping rates for carriers and service levels. Documented path is /v1/shipment_rating. Declared end-of-life in…
+- [Zonos Order Complete REST API (legacy)](https://apis.io/apis/zonos/zonos-order-complete-rest-api/) — Legacy REST endpoint that accepts the details of a shopper's completed order and returns the Zonos-specific order ID. Documented path is /v1/orders.…
+- [Zonos Checkout REST API (legacy)](https://apis.io/apis/zonos/zonos-checkout-rest-api/) — Legacy REST integration surface for Zonos Checkout, listed on the Zonos REST API reference index. No base URL or endpoint path was resolvable from the…
 
-## APIs
+## Where to find this API
 
-### Zonos Graph (GraphQL API)
-
-The Zonos Graph is the company's supported integration surface — a single GraphQL endpoint covering landed cost, classification, country of origin, export control, item and party restriction screening, carts and checkout sessions, orders, shipments, ratings, labels, cartonization, customs documents and customs specs, manifests, consignments and consolidations, CBP entries, postal PDDP submissions, store credit and webhooks. Public introspection returned 1,396 types, 170 queries and 153 mutations on 2026-07-30 with no credential presented. There is no subscription type; asynchronous delivery is by webhook.
-
-- **Human URL:** [https://zonos.com/developer](https://zonos.com/developer)
-- **Base URL:** `https://api.zonos.com/graphql`
-
-#### Tags
-
-- GraphQL
-- Landed Cost
-- Customs
-- Trade Compliance
-- Classification
-- Shipping
-- Webhooks
-
-#### Properties
-
-- [GraphQL](graphql/zonos-graphql-schema.json) — introspection response, harvested verbatim 2026-07-30 (HTTP 200)
-- [API Reference](https://zonos.com/developer)
-- [Documentation](https://zonos.com/docs)
-- [Why GraphQL](https://zonos.com/docs/supply-chain/why-graphql)
-- [Webhooks](https://zonos.com/docs/supply-chain/webhooks)
-- [Rate Limiting](https://zonos.com/docs/supply-chain/rate-limiting)
-- [Idempotency](https://zonos.com/docs/supply-chain/idempotency)
-- [API Errors](https://zonos.com/docs/supply-chain/api-errors)
-- [OAuth](https://zonos.com/docs/supply-chain/oauth)
-- [Retrieve GraphQL key](https://zonos.com/docs/account/retrieve-graphql-key)
-- [TypeScript SDK](https://github.com/Zonos/fe-10-typescript-sdk)
-- [PHP SDK](https://github.com/Zonos/zonos-php-sdk)
-
-### Zonos Landed Cost REST API (legacy)
-
-Legacy REST endpoint returning a complete breakdown of duties, taxes and fees making up a total landed cost. Requires a `zonos-version` request header. Declared end-of-life in favor of the Graph.
-
-- **Human URL:** [https://zonos.com/docs/api-reference/landed-cost-rest-api](https://zonos.com/docs/api-reference/landed-cost-rest-api)
-- **Base URL:** `https://api.zonos.com/v1/landed_cost`
-
-### Zonos Classify REST API (legacy)
-
-Legacy REST endpoints for harmonizing a catalog to HS codes, one item at a time or in bulk. Declared end-of-life in favor of the Graph.
-
-- **Human URL:** [https://zonos.com/docs/api-reference/classify-rest-api](https://zonos.com/docs/api-reference/classify-rest-api)
-- **Base URL:** `https://api.zonos.com/v1/classify`
-
-### Zonos Rating REST API (legacy)
-
-Legacy REST endpoint returning international shipping rates for carriers and service levels.
-
-- **Human URL:** [https://zonos.com/docs/api-reference/rating-rest-api](https://zonos.com/docs/api-reference/rating-rest-api)
-- **Base URL:** `https://api.zonos.com/v1/shipment_rating`
-
-### Zonos Order Complete REST API (legacy)
-
-Legacy REST endpoint that accepts a shopper's completed order and returns the Zonos-specific order ID.
-
-- **Human URL:** [https://zonos.com/docs/api-reference/order-complete-rest-api](https://zonos.com/docs/api-reference/order-complete-rest-api)
-- **Base URL:** `https://api.zonos.com/v1/orders`
-
-### Zonos Checkout REST API (legacy)
-
-Legacy REST integration surface for Zonos Checkout, listed on the REST reference index. No base URL was resolvable from the public reference page on 2026-07-30, so none is asserted.
-
-- **Human URL:** [https://zonos.com/docs/api-reference/checkout-rest-api](https://zonos.com/docs/api-reference/checkout-rest-api)
-
-## Interoperability
-
-See [review.yml](review.yml) for the full evidence block. In short:
-
-- **Standard conformance:** WCO Harmonized System (explicit `WcoVersion` enum, `WCO_1997` through `WCO_2072`), US CBP ACE CATAIR PGA message sets (APHIS PG10/PG14, EPA, FWS Form 3-177), UPU postal operator codes and the ITMATT declaration status, GS1 GTIN/UPC as an item identifier, and the EU/UK tax-identifier regimes (EORI, IOSS, VOEC). **No DCSA, no IATA ONE Record, no GS1 EPCIS, no UN/CEFACT, no eFTI, and no EDIFACT or ANSI X12 reference anywhere in the harvested schema.**
-- **Interface shape:** `standard-plus-proprietary` — the vocabulary inside is standards-based, but the contract itself is a Zonos-proprietary GraphQL graph that nobody else implements.
-- **Event model:** `webhook-push` — 23 `WebhookType` values, created with the `webhookCreate` mutation; no GraphQL subscription type exists.
-- **EDI legacy:** No EDI referenced. This is a REST/GraphQL-native trade-compliance vendor, not an EDI house with a REST veneer.
-- **Access gate:** Self-serve for Shopify merchants at `account.zonos.com/register`; every other platform requires a sign-up form, an account agreement and an onboarding representative.
-
-## Common Properties
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://zonos.com/)
 - [Documentation](https://zonos.com/docs)
-- [API Reference](https://zonos.com/developer)
-- [GraphQL Schema](graphql/zonos-graphql-schema.json)
-- [Authentication](https://zonos.com/docs/account/retrieve-graphql-key)
-- [OAuth](https://zonos.com/docs/supply-chain/oauth)
-- [Rate Limits](https://zonos.com/docs/supply-chain/rate-limiting)
-- [Webhooks](https://zonos.com/docs/supply-chain/webhooks)
+- [API reference](https://zonos.com/developer)
 - [Pricing](https://zonos.com/pricing)
-- [Sign Up](https://account.zonos.com/register)
-- [Dashboard](https://dashboard.zonos.com)
-- [Status](https://status.zonos.com)
-- [GitHub Organization](https://github.com/Zonos)
-- [LinkedIn](https://www.linkedin.com/company/zonos)
+- [Sign up](https://account.zonos.com/register)
+- [Support](https://zonos.com/contact-support)
 - [Blog](https://zonos.com/all-posts)
-- [llms.txt](https://zonos.com/llms.txt)
+- [GitHub](https://github.com/Zonos)
+- [Status](https://status.zonos.com)
 
-## Maintainers
+## API Evangelist rating
 
-- Kin Lane — kin@apievangelist.com
+**Kin Score 23.5** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 62.5 |
+| Contract quality | 0.0 |
+| Contract governance | 0.0 |
+| Operational transparency | 26.3 |
+| Developer ergonomics | 52.4 |
+| Access clarity | 23.7 |
+
+**Agent readiness 8.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | unknown |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 5.9** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/zonos/](https://apis.io/providers/zonos/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Zonos: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/zonos/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
